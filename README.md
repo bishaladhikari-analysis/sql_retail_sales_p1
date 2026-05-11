@@ -4,7 +4,7 @@
 
 **Project Title**: Retail Sales Analysis  
 **Level**: Beginner  
-**Database**: `p1_retail_db`
+**Database**: `sql_project_p1`
 
 This project is designed to demonstrate SQL skills and techniques typically used by data analysts to explore, clean, and analyze retail sales data. The project involves setting up a retail sales database, performing exploratory data analysis (EDA), and answering specific business questions through SQL queries. This project is ideal for those who are starting their journey in data analysis and want to build a solid foundation in SQL.
 
@@ -23,22 +23,22 @@ This project is designed to demonstrate SQL skills and techniques typically used
 - **Table Creation**: A table named `retail_sales` is created to store the sales data. The table structure includes columns for transaction ID, sale date, sale time, customer ID, gender, age, product category, quantity sold, price per unit, cost of goods sold (COGS), and total sale amount.
 
 ```sql
-CREATE DATABASE p1_retail_db;
+CREATE DATABASE sql_project_p1;
 
-CREATE TABLE retail_sales
-(
-    transactions_id INT PRIMARY KEY,
-    sale_date DATE,	
-    sale_time TIME,
-    customer_id INT,	
-    gender VARCHAR(10),
-    age INT,
-    category VARCHAR(35),
-    quantity INT,
-    price_per_unit FLOAT,	
-    cogs FLOAT,
-    total_sale FLOAT
+create Table retail_Sales(
+transaction_id varchar(10) primary key,
+sale_date date,
+sale_time time,
+customer_id varchar(10),
+gender varchar(10),
+age int,
+category varchar(15),
+quantity int,
+price_per_unit DECIMAL(10,2),
+cogs DECIMAL(10,2),	
+Total_sales float
 );
+
 ```
 
 ### 2. Data Exploration & Cleaning
@@ -70,7 +70,7 @@ WHERE
 
 The following SQL queries were developed to answer specific business questions:
 
-1. **Write a SQL query to retrieve all columns for sales made on '2022-11-05**:
+1. **Write a SQL query to retrieve all columns for sales made on '2025-09-05**:
 ```sql
 SELECT *
 FROM retail_sales
@@ -88,13 +88,20 @@ WHERE
     TO_CHAR(sale_date, 'YYYY-MM') = '2022-11'
     AND
     quantity >= 4
+--alternative:
+SELECT *
+FROM retail_sales
+WHERE category = 'Clothing'
+  AND quantity > 7
+  AND sale_date >= '2025-11-01'
+  AND sale_date < '2025-12-01';
 ```
 
 3. **Write a SQL query to calculate the total sales (total_sale) for each category.**:
 ```sql
 SELECT 
     category,
-    SUM(total_sale) as net_sale,
+    SUM(Total_sale) as net_sale,
     COUNT(*) as total_orders
 FROM retail_sales
 GROUP BY 1
@@ -126,6 +133,20 @@ GROUP
     category,
     gender
 ORDER BY 1
+
+-- alternative
+
+SELECT 
+    gender,
+    category,
+    COUNT(transaction_id) AS total_transaction
+FROM retail_sales
+GROUP BY 
+    gender,
+    category
+ORDER BY 
+    category,
+    gender;
 ```
 
 7. **Write a SQL query to calculate the average sale for each month. Find out best selling month in each year**:
@@ -145,6 +166,20 @@ FROM retail_sales
 GROUP BY 1, 2
 ) as t1
 WHERE rank = 1
+
+--alternative:
+
+SELECT 
+    EXTRACT(YEAR FROM sale_date) AS year,
+    EXTRACT(MONTH FROM sale_date) AS month,
+    AVG(total_sales) AS avg_sale
+FROM retail_sales
+GROUP BY 
+    EXTRACT(YEAR FROM sale_date),
+    EXTRACT(MONTH FROM sale_date)
+ORDER BY 
+    year,
+    month;
 ```
 
 8. **Write a SQL query to find the top 5 customers based on the highest total sales **:
@@ -185,6 +220,28 @@ SELECT
     COUNT(*) as total_orders    
 FROM hourly_sale
 GROUP BY shift
+
+--alretnative:
+SELECT 
+    CASE 
+        WHEN EXTRACT(HOUR FROM sale_time) < 12 THEN 'Morning'
+        WHEN EXTRACT(HOUR FROM sale_time) BETWEEN 12 AND 17 THEN 'Afternoon'
+        ELSE 'Evening'
+    END AS shift,
+    
+    COUNT(transaction_id) AS number_of_orders
+
+FROM retail_sales
+
+GROUP BY 
+    CASE 
+        WHEN EXTRACT(HOUR FROM sale_time) < 12 THEN 'Morning'
+        WHEN EXTRACT(HOUR FROM sale_time) BETWEEN 12 AND 17 THEN 'Afternoon'
+        ELSE 'Evening'
+    END
+
+ORDER BY number_of_orders DESC;
+
 ```
 
 ## Findings
