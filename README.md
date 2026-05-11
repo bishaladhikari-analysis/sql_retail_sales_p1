@@ -3,7 +3,6 @@
 ## Project Overview
 
 **Project Title**: Retail Sales Analysis  
-**Level**: Beginner  
 **Database**: `sql_project_p1`
 
 This project is designed to demonstrate SQL skills and techniques typically used by data analysts to explore, clean, and analyze retail sales data. The project involves setting up a retail sales database, performing exploratory data analysis (EDA), and answering specific business questions through SQL queries. This project is ideal for those who are starting their journey in data analysis and want to build a solid foundation in SQL.
@@ -19,7 +18,7 @@ This project is designed to demonstrate SQL skills and techniques typically used
 
 ### 1. Database Setup
 
-- **Database Creation**: The project starts by creating a database named `p1_retail_db`.
+- **Database Creation**: The project starts by creating a database named `sql_project_p1`.
 - **Table Creation**: A table named `retail_sales` is created to store the sales data. The table structure includes columns for transaction ID, sale date, sale time, customer ID, gender, age, product category, quantity sold, price per unit, cost of goods sold (COGS), and total sale amount.
 
 ```sql
@@ -118,7 +117,7 @@ WHERE category = 'Beauty'
 5. **Write a SQL query to find all transactions where the total_sale is greater than 1000.**:
 ```sql
 SELECT * FROM retail_sales
-WHERE total_sale > 1000
+WHERE Total_sale > 1000
 ```
 
 6. **Write a SQL query to find the total number of transactions (transaction_id) made by each gender in each category.**:
@@ -160,7 +159,7 @@ FROM
 SELECT 
     EXTRACT(YEAR FROM sale_date) as year,
     EXTRACT(MONTH FROM sale_date) as month,
-    AVG(total_sale) as avg_sale,
+    AVG(Total_sale) as avg_sale,
     RANK() OVER(PARTITION BY EXTRACT(YEAR FROM sale_date) ORDER BY AVG(total_sale) DESC) as rank
 FROM retail_sales
 GROUP BY 1, 2
@@ -172,7 +171,7 @@ WHERE rank = 1
 SELECT 
     EXTRACT(YEAR FROM sale_date) AS year,
     EXTRACT(MONTH FROM sale_date) AS month,
-    AVG(total_sales) AS avg_sale
+    AVG(Total_sales) AS avg_sale
 FROM retail_sales
 GROUP BY 
     EXTRACT(YEAR FROM sale_date),
@@ -186,7 +185,7 @@ ORDER BY
 ```sql
 SELECT 
     customer_id,
-    SUM(total_sale) as total_sales
+    SUM(Total_sale) as total_sales
 FROM retail_sales
 GROUP BY 1
 ORDER BY 2 DESC
