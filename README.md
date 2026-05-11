@@ -279,4 +279,4 @@ For more content on SQL, data analysis, and other data-related topics, make sure
 - **Instagram**: [Follow me for daily tips and updates](https://www.instagram.com/bishaladhikari859/)
 - **LinkedIn**: [Connect with me professionally](https://www.linkedin.com/in/bishal-adhikari-3b3579398/?skipRedirect=true)
 
-Thank you for your support, and I look forward to connecting with you!
+
